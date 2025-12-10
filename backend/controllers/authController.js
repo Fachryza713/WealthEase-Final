@@ -5,11 +5,11 @@ import { supabase, getServiceRoleClient } from '../config/supabaseClient.js';
 const ensureUserExists = async (userId, email, name, role = 'user') => {
   try {
     console.log(`🔍 Checking if user exists: ${userId} (${email})`);
-    
+
     // Use service role client for operations that need to bypass RLS
     const adminClient = getServiceRoleClient();
     console.log(`🔑 Using admin client (service_role key) for database operations`);
-    
+
     // Check if user exists
     const { data: existingUser, error: checkError } = await adminClient
       .from('users')
@@ -20,7 +20,7 @@ const ensureUserExists = async (userId, email, name, role = 'user') => {
     // If user doesn't exist, create them
     if (checkError && checkError.code === 'PGRST116') {
       console.log(`📝 User not found, creating new user: ${email}`);
-      
+
       const { data: newUser, error: insertError } = await adminClient
         .from('users')
         .insert({
@@ -67,8 +67,8 @@ export const login = async (req, res) => {
 
     // Basic validation
     if (!email || !password) {
-      return res.status(400).json({ 
-        error: 'Email and password are required' 
+      return res.status(400).json({
+        error: 'Email and password are required'
       });
     }
 
@@ -84,7 +84,7 @@ export const login = async (req, res) => {
     await ensureUserExists(userId, email, name, role);
 
     const token = jwt.sign(
-      { 
+      {
         email: email,
         userId: userId,
         name: name,
@@ -116,7 +116,7 @@ export const googleAuth = async (req, res) => {
 export const googleCallback = async (req, res) => {
   try {
     const user = req.user;
-    
+
     // Ensure user exists in Supabase database
     await ensureUserExists(
       user.id,
@@ -124,7 +124,7 @@ export const googleCallback = async (req, res) => {
       user.name || user.email.split('@')[0],
       'user'
     );
-    
+
     // Generate JWT token for the user
     const token = jwt.sign(
       {
@@ -138,11 +138,11 @@ export const googleCallback = async (req, res) => {
     );
 
     // Redirect to frontend with token
-    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
+    const frontendUrl = process.env.FRONTEND_URL || 'https://wealth-ease-frontend.vercel.app';
     res.redirect(`${frontendUrl}/dashboard?token=${token}`);
   } catch (error) {
     console.error('Google callback error:', error);
-    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
+    const frontendUrl = process.env.FRONTEND_URL || 'https://wealth-ease-frontend.vercel.app';
     res.redirect(`${frontendUrl}/login?error=authentication_failed`);
   }
 };
