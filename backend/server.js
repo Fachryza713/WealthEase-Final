@@ -36,6 +36,7 @@ import clearDataRoutes from './routes/clearDataRoutes.js';
 import { verifyToken } from './middleware/authMiddleware.js';
 
 const app = express();
+// Force redeploy trigger
 const PORT = process.env.PORT || 5000;
 
 // Middleware
