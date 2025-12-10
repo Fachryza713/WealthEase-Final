@@ -138,11 +138,15 @@ export const googleCallback = async (req, res) => {
     );
 
     // Redirect to frontend with token
-    const frontendUrl = process.env.FRONTEND_URL || 'https://wealth-ease-frontend.vercel.app';
+    const frontendUrl = process.env.NODE_ENV === 'production'
+      ? 'https://wealth-ease-frontend.vercel.app'
+      : 'http://localhost:3000';
     res.redirect(`${frontendUrl}/dashboard?token=${token}`);
   } catch (error) {
     console.error('Google callback error:', error);
-    const frontendUrl = process.env.FRONTEND_URL || 'https://wealth-ease-frontend.vercel.app';
+    const frontendUrl = process.env.NODE_ENV === 'production'
+      ? 'https://wealth-ease-frontend.vercel.app'
+      : 'http://localhost:3000';
     res.redirect(`${frontendUrl}/login?error=authentication_failed`);
   }
 };
