@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - WealthEase</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/ai-finance.css">
+    <link rel="stylesheet" href="css/smart-bill.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Chart.js for AI Finance -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <h2>WealthEase</h2>
+            </div>
+            <div class="nav-menu">
+                <button id="logoutBtn" class="btn btn-secondary">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Logout
+                </button>
+            </div>
+        </div>
+    </nav>
+    
+    <main class="dashboard-main">
+        <div class="dashboard-container">
+            <div class="dashboard-header">
+                <h1>Welcome, <span id="userName">User</span></h1>
+                <p>Here's an overview of your financial status</p>
+                <div id="dataSummary" class="data-summary" style="display: none;">
+                    <small>
+                        <i class="fas fa-info-circle"></i>
+                        <span id="dataSummaryText">Data synced across devices</span>
+                    </small>
+                </div>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-wallet"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>Total Balance</h3>
+                        <p class="stat-value" data-loading="Loading balance...">Loading...</p>
+                        <span class="stat-change neutral">Loading...</span>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);">
+                        <i class="fas fa-money-bill-wave"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>💵 Cash Balance</h3>
+                        <p class="stat-value" id="cashBalance" data-loading="Loading...">$0.00</p>
+                        <span class="stat-change neutral" id="cashChange">0 transactions</span>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                        <i class="fas fa-credit-card"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>💳 Wallet Balance</h3>
+                        <p class="stat-value" id="walletBalance" data-loading="Loading...">$0.00</p>
+                        <span class="stat-change neutral" id="walletChange">0 transactions</span>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-chart-pie"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>Monthly Spending</h3>
+                        <p class="stat-value" data-loading="Loading spending...">Loading...</p>
+                        <span class="stat-change neutral">Loading...</span>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-trending-up"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>Investment Growth</h3>
+                        <p class="stat-value" data-loading="Loading investments...">Loading...</p>
+                        <span class="stat-change neutral">Loading...</span>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-piggy-bank"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>Savings Goal</h3>
+                        <p class="stat-value" data-loading="Loading savings...">Loading...</p>
+                        <span class="stat-change neutral">Loading...</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Cashflow Section -->
+            <div class="cashflow-section">
+                <div class="cashflow-card">
+                    <h3>Cashflow Overview</h3>
+                    <div class="cashflow-chart">
+                        <div class="cashflow-bar">
+                            <div class="income-bar">
+                                <span class="bar-label">Income</span>
+                                <div class="bar-fill income-fill" style="width: 0%">
+                                    <span class="bar-value">$0</span>
+                                </div>
+                            </div>
+                            <div class="expense-bar">
+                                <span class="bar-label">Expenses</span>
+                                <div class="bar-fill expense-fill" style="width: 0%">
+                                    <span class="bar-value">$0</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="cashflow-summary">
+                            <div class="summary-item">
+                                <span class="summary-label">Net Cashflow</span>
+                                <span class="summary-value neutral">$0</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Savings Rate</span>
+                                <span class="summary-value">0%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-content">
+                <div class="content-grid">
+                    <div class="content-card">
+                        <div class="card-header">
+                            <h3>Recent Transactions</h3>
+                            <div class="transaction-filters">
+                                <button class="filter-btn active" data-filter="all">
+                                    <i class="fas fa-list"></i> All
+                                </button>
+                                <button class="filter-btn" data-filter="cash">
+                                    <i class="fas fa-money-bill-wave"></i> Cash
+                                </button>
+                                <button class="filter-btn" data-filter="wallet">
+                                    <i class="fas fa-credit-card"></i> Wallet
+                                </button>
+                            </div>
+                            <button id="addTransactionBtn" class="btn btn-primary btn-sm">
+                                <i class="fas fa-plus"></i>
+                                Add Transaction
+                            </button>
+                        </div>
+                        <div class="transaction-list" id="transactionList">
+                            <!-- Transactions will be loaded dynamically -->
+                        </div>
+                    </div>
+                    
+                    <div class="content-card">
+                        <h3>Quick Actions</h3>
+                        <div class="quick-actions">
+                            <button class="action-btn" id="addTransactionAction">
+                                <i class="fas fa-plus"></i>
+                                Add Transaction
+                            </button>
+                            <button class="action-btn" onclick="window.location.href='analytics.html'">
+                                <i class="fas fa-chart-pie"></i>
+                                Analytics Dashboard
+                            </button>
+                            <button class="action-btn">
+                                <i class="fas fa-cog"></i>
+                                Settings
+                            </button>
+                            <button class="action-btn" id="exportDataBtn">
+                                <i class="fas fa-download"></i>
+                                Export Data
+                            </button>
+                            <button class="action-btn" id="importDataBtn">
+                                <i class="fas fa-upload"></i>
+                                Import Data
+                            </button>
+                            <button class="action-btn ai-finance-btn" onclick="openAIFinanceModal()">
+                                <i class="fas fa-brain"></i>
+                                AI Finance Forecast
+                            </button>
+                            <button class="action-btn smart-bill-btn" onclick="openSmartBillModal()">
+                                <i class="fas fa-file-invoice-dollar"></i>
+                                Smart Bill & Reminder
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Add Transaction Modal -->
+    <div id="addTransactionModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add New Transaction</h3>
+                <button class="modal-close" id="closeModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="addTransactionForm" class="modal-form">
+                <div class="form-group">
+                    <label for="transactionName">Transaction Name</label>
+                    <input type="text" id="transactionName" name="name" required placeholder="e.g., Grocery Store">
+                </div>
+                
+                <div class="form-group">
+                    <label for="transactionAmount">Amount</label>
+                    <input type="number" id="transactionAmount" name="amount" step="0.01" required placeholder="0.00">
+                </div>
+                
+                <div class="form-group">
+                    <label for="transactionType">Type</label>
+                    <select id="transactionType" name="type" required>
+                        <option value="">Select type</option>
+                        <option value="income">Income</option>
+                        <option value="expense">Expense</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="transactionCategory">Category</label>
+                    <select id="transactionCategory" name="category" required>
+                        <option value="">Select category</option>
+                        <option value="food">Food & Dining</option>
+                        <option value="transportation">Transportation</option>
+                        <option value="shopping">Shopping</option>
+                        <option value="entertainment">Entertainment</option>
+                        <option value="bills">Bills & Utilities</option>
+                        <option value="healthcare">Healthcare</option>
+                        <option value="income">Salary</option>
+                        <option value="investment">Investment</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="transactionPaymentMethod">Payment Method</label>
+                    <select id="transactionPaymentMethod" name="paymentMethod" required>
+                        <option value="">Select payment method</option>
+                        <option value="cash">💵 Cash</option>
+                        <option value="wallet">💳 Digital Wallet</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="transactionDescription">Description (Optional)</label>
+                    <textarea id="transactionDescription" name="description" placeholder="Add a note about this transaction"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="transactionDate">Date</label>
+                    <input type="date" id="transactionDate" name="date" required>
+                </div>
+                
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" id="cancelTransaction">Cancel</button>
+                    <button type="submit" class="btn btn-primary">
+                        <span class="btn-text">Add Transaction</span>
+                        <div class="loading-spinner" style="display: none;">
+                            <i class="fas fa-spinner fa-spin"></i>
+                        </div>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Hidden file input for import -->
+    <input type="file" id="importFileInput" accept=".json" style="display: none;">
+    
+    <!-- AI Finance Forecast Modal -->
+    <div id="aiFinanceModal" class="modal ai-finance-modal">
+        <div class="modal-content ai-modal-content">
+            <div class="modal-header">
+                <h2>
+                    <i class="fas fa-brain"></i>
+                    AI Finance Forecast & Insight
+                </h2>
+                <button class="modal-close" onclick="closeAIFinanceModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="ai-modal-body">
+                <!-- Loading State -->
+                <div id="aiLoadingState" class="ai-loading-state">
+                    <div class="ai-loader">
+                        <div class="ai-loader-spinner"></div>
+                        <p>Analyzing financial data...</p>
+                    </div>
+                </div>
+
+                <!-- AI Dashboard Content -->
+                <div id="aiDashboardContent" class="ai-dashboard-content" style="display: none;">
+                    <!-- Stats Overview -->
+                    <div class="ai-stats-overview">
+                        <div class="ai-stat-card">
+                            <div class="ai-stat-icon">
+                                <i class="fas fa-dollar-sign"></i>
+                            </div>
+                            <div class="ai-stat-info">
+                                <h3>Current Value</h3>
+                                <p id="aiCurrentValue" class="ai-stat-value">$0.00</p>
+                            </div>
+                        </div>
+                        <div class="ai-stat-card">
+                            <div class="ai-stat-icon">
+                                <i class="fas fa-trending-up"></i>
+                            </div>
+                            <div class="ai-stat-info">
+                                <h3>Predicted Change</h3>
+                                <p id="aiPredictedChange" class="ai-stat-value">+0.00%</p>
+                            </div>
+                        </div>
+                        <div class="ai-stat-card">
+                            <div class="ai-stat-icon">
+                                <i class="fas fa-chart-bar"></i>
+                            </div>
+                            <div class="ai-stat-info">
+                                <h3>Volatility</h3>
+                                <p id="aiVolatility" class="ai-stat-value">0.00%</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Main Cards -->
+                    <div class="ai-main-cards">
+                        <!-- Forecast Card -->
+                        <div class="ai-card ai-forecast-card">
+                            <div class="ai-card-header">
+                                <h3>
+                                    <i class="fas fa-crystal-ball"></i>
+                                    AI Forecast
+                                </h3>
+                                <button id="aiRefreshBtn" class="ai-btn-refresh">
+                                    <i class="fas fa-sync-alt"></i>
+                                </button>
+                            </div>
+                            <div class="ai-card-content">
+                                <div class="ai-chart-container">
+                                    <canvas id="aiForecastChart"></canvas>
+                                </div>
+                                <div class="ai-forecast-summary">
+                                    <div class="ai-forecast-item">
+                                        <span class="ai-forecast-label">Next Week:</span>
+                                        <span id="aiNextWeekForecast" class="ai-forecast-value">$0.00</span>
+                                    </div>
+                                    <div class="ai-forecast-item">
+                                        <span class="ai-forecast-label">Next Month:</span>
+                                        <span id="aiNextMonthForecast" class="ai-forecast-value">$0.00</span>
+                                    </div>
+                                    <div class="ai-forecast-item">
+                                        <span class="ai-forecast-label">Confidence:</span>
+                                        <span id="aiConfidenceLevel" class="ai-forecast-value">0%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Insight Card -->
+                        <div class="ai-card ai-insight-card">
+                            <div class="ai-card-header">
+                                <h3>
+                                    <i class="fas fa-lightbulb"></i>
+                                    AI Insights
+                                </h3>
+                                <button id="aiGenerateInsights" class="ai-btn-generate">
+                                    <i class="fas fa-magic"></i>
+                                </button>
+                            </div>
+                            <div class="ai-card-content">
+                                <div class="ai-insights-list" id="aiInsightsList">
+                                    <!-- Insights will be dynamically generated -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Smart Bill & Reminder Center Modal -->
+    <div id="smartBillModal" class="modal smart-bill-modal">
+        <div class="modal-content smart-bill-modal-content">
+            <div class="modal-header">
+                <h2>
+                    <i class="fas fa-file-invoice-dollar"></i>
+                    Smart Bill & Reminder Center
+                </h2>
+                <button class="modal-close" onclick="closeSmartBillModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="smart-bill-modal-body">
+                <!-- Smart Bill Form -->
+                <div class="smart-bill-form-section">
+                    <h3>
+                        <i class="fas fa-plus-circle"></i>
+                        Add New Bill
+                    </h3>
+                    <form id="smartBillForm" class="smart-bill-form">
+                        <div class="form-group">
+                            <label for="billName">Bill Name</label>
+                            <input type="text" id="billName" name="billName" required placeholder="e.g., Internet Bill, Electricity">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="billAmount">Amount</label>
+                            <input type="number" id="billAmount" name="amount" step="0.01" required placeholder="0.00">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="billDueDate">Due Date</label>
+                            <input type="date" id="billDueDate" name="dueDate" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="billCategory">Category</label>
+                            <select id="billCategory" name="category" required>
+                                <option value="">Select category</option>
+                                <option value="utilities">Utilities</option>
+                                <option value="internet">Internet</option>
+                                <option value="insurance">Insurance</option>
+                                <option value="loan">Loan</option>
+                                <option value="subscription">Subscription</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="billDescription">Description (Optional)</label>
+                            <textarea id="billDescription" name="description" placeholder="Add notes about this bill"></textarea>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-secondary" onclick="clearBillForm()">Clear</button>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-plus"></i>
+                                Add Bill
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Reminder Center -->
+                <div class="reminder-center-section">
+                    <div class="section-header">
+                        <h3>
+                            <i class="fas fa-bell"></i>
+                            Reminder Center
+                        </h3>
+                        <div class="reminder-stats">
+                            <span class="stat-item">
+                                <i class="fas fa-file-invoice"></i>
+                                <span id="totalBills">0</span> Total Bills
+                            </span>
+                            <span class="stat-item">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <span id="dueSoonBills">0</span> Due Soon
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="bills-list" id="billsList">
+                        <!-- Bills will be dynamically loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Chatbot Toggle in Settings -->
+    <div class="settings-section">
+        <div class="setting-item">
+            <div class="setting-label">
+                <i class="fas fa-robot"></i>
+                <span>AI Chatbot Assistant</span>
+            </div>
+            <div class="setting-control">
+                <label class="switch">
+                    <input type="checkbox" id="chatbotToggle" checked>
+                    <span class="slider round"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/shared-data-manager.js"></script>
+    <script src="js/dashboard.js"></script>
+    <script src="js/ai-finance-integration.js"></script>
+    <script src="js/smart-bill-integration.js"></script>
+    <link rel="stylesheet" href="css/chatbot.css">
+    <script src="js/chatbot.js"></script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+{
+  "name": "wealthease-ai-backend",
+  "version": "1.0.0",
+  "description": "Backend API for WealthEase AI Finance integration with OpenAI",
+  "main": "ai-server.js",
+  "scripts": {
+    "start": "node ai-server.js",
+    "dev": "nodemon ai-server.js",
+    "test": "node test-ai.js"
+  },
+  "keywords": [
+    "ai",
+    "finance",
+    "openai",
+    "wealthease",
+    "transactions",
+    "analysis"
+  ],
+  "author": "WealthEase Team",
+  "license": "MIT",
+  "dependencies": {
+    "openai": "^4.20.1",
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express-rate-limit": "^7.1.5",
+    "node-fetch": "^2.7.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}

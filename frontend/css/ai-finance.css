@@ -1,0 +1,335 @@
+/* AI Finance Integration Styles */
+/* Removed .ai-finance-btn styles - now using unified .action-btn styles */
+
+/* AI Finance Modal */
+.ai-finance-modal .modal-content {
+    max-width: 1200px;
+    width: 95%;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.ai-modal-content {
+    background: linear-gradient(135deg, #0a0905 0%, #1a1a1a 100%);
+    border: 2px solid #22afa1;
+    border-radius: 16px;
+}
+
+.ai-modal-body {
+    padding: 0;
+}
+
+/* AI Loading State */
+.ai-loading-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 400px;
+    text-align: center;
+    padding: 2rem;
+}
+
+.ai-loader {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.ai-loader-spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid rgba(34, 175, 161, 0.2);
+    border-top: 4px solid #22afa1;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+.ai-loader p {
+    color: #dbd3d2;
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+/* AI Dashboard Content */
+.ai-dashboard-content {
+    padding: 1.5rem;
+    animation: fadeInUp 0.6s ease-out;
+}
+
+/* AI Stats Overview */
+.ai-stats-overview {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.ai-stat-card {
+    background: linear-gradient(135deg, rgba(34, 175, 161, 0.1), rgba(34, 175, 161, 0.05));
+    border: 1px solid rgba(34, 175, 161, 0.2);
+    border-radius: 12px;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    transition: all 0.3s ease;
+}
+
+.ai-stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(34, 175, 161, 0.2);
+    border-color: #22afa1;
+}
+
+.ai-stat-icon {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, #22afa1, #1a8a7a);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    color: white;
+}
+
+.ai-stat-info h3 {
+    font-size: 0.8rem;
+    color: #dbd3d2;
+    margin-bottom: 0.25rem;
+    opacity: 0.8;
+}
+
+.ai-stat-value {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #22afa1;
+}
+
+/* AI Main Cards */
+.ai-main-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+.ai-card {
+    background: linear-gradient(135deg, rgba(34, 175, 161, 0.08), rgba(34, 175, 161, 0.03));
+    border: 1px solid rgba(34, 175, 161, 0.15);
+    border-radius: 12px;
+    overflow: hidden;
+    backdrop-filter: blur(15px);
+    transition: all 0.3s ease;
+}
+
+.ai-card:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 20px rgba(34, 175, 161, 0.15);
+    border-color: rgba(34, 175, 161, 0.3);
+}
+
+.ai-card-header {
+    padding: 1rem;
+    border-bottom: 1px solid rgba(34, 175, 161, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ai-card-header h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #dbd3d2;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.ai-card-header i {
+    color: #22afa1;
+}
+
+.ai-btn-refresh,
+.ai-btn-generate {
+    background: rgba(34, 175, 161, 0.1);
+    border: 1px solid rgba(34, 175, 161, 0.2);
+    color: #22afa1;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.ai-btn-refresh:hover,
+.ai-btn-generate:hover {
+    background: rgba(34, 175, 161, 0.2);
+    transform: scale(1.05);
+}
+
+.ai-card-content {
+    padding: 1rem;
+}
+
+/* AI Chart Container */
+.ai-chart-container {
+    height: 250px;
+    margin-bottom: 1rem;
+    position: relative;
+}
+
+/* AI Forecast Summary */
+.ai-forecast-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 0.75rem;
+}
+
+.ai-forecast-item {
+    text-align: center;
+    padding: 0.75rem;
+    background: rgba(34, 175, 161, 0.05);
+    border-radius: 6px;
+    border: 1px solid rgba(34, 175, 161, 0.1);
+}
+
+.ai-forecast-label {
+    display: block;
+    font-size: 0.75rem;
+    color: #dbd3d2;
+    opacity: 0.7;
+    margin-bottom: 0.25rem;
+}
+
+.ai-forecast-value {
+    display: block;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #22afa1;
+}
+
+/* AI Insights */
+.ai-insights-list {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.ai-insight-item {
+    background: rgba(34, 175, 161, 0.05);
+    border: 1px solid rgba(34, 175, 161, 0.1);
+    border-radius: 6px;
+    padding: 0.75rem;
+    margin-bottom: 0.75rem;
+    transition: all 0.3s ease;
+}
+
+.ai-insight-item:hover {
+    background: rgba(34, 175, 161, 0.08);
+    border-color: rgba(34, 175, 161, 0.2);
+}
+
+.ai-insight-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 0.5rem;
+}
+
+.ai-insight-icon {
+    color: #22afa1;
+    font-size: 0.9rem;
+}
+
+.ai-insight-title {
+    font-weight: 600;
+    color: #dbd3d2;
+    font-size: 0.85rem;
+}
+
+.ai-insight-content {
+    color: #dbd3d2;
+    font-size: 0.8rem;
+    line-height: 1.4;
+    opacity: 0.9;
+}
+
+.ai-insight-confidence {
+    display: inline-block;
+    background: rgba(34, 175, 161, 0.1);
+    color: #22afa1;
+    padding: 2px 6px;
+    border-radius: 10px;
+    font-size: 0.7rem;
+    font-weight: 500;
+    margin-top: 0.5rem;
+}
+
+/* Responsive Design for AI Modal */
+@media (max-width: 768px) {
+    .ai-main-cards {
+        grid-template-columns: 1fr;
+    }
+    
+    .ai-stats-overview {
+        grid-template-columns: 1fr;
+    }
+    
+    .ai-chart-container {
+        height: 200px;
+    }
+    
+    .ai-forecast-summary {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .ai-finance-modal .modal-content {
+        width: 98%;
+        max-height: 95vh;
+    }
+    
+    .ai-dashboard-content {
+        padding: 1rem;
+    }
+    
+    .ai-stat-card {
+        padding: 0.75rem;
+    }
+    
+    .ai-stat-icon {
+        width: 35px;
+        height: 35px;
+        font-size: 1rem;
+    }
+    
+    .ai-stat-value {
+        font-size: 1.1rem;
+    }
+    
+    .ai-chart-container {
+        height: 180px;
+    }
+}
+
+/* Animations */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
